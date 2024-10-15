@@ -1,0 +1,38 @@
+<div class="container">
+  <div>
+      <h2>Modifier un Album :</h2>
+  </div>
+  <form>
+      <div  class="col-sm-2 col-md-2 col-lg-2">
+        <label>ID Album</label>
+        <input readonly type="text" [(ngModel)]="currentAlbum.idAlbum" name="idAlbum" class="form-control">
+      </div>
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label>Nom Album</label>
+        <input type="text" [(ngModel)]="currentAlbum.name" name="name" class="form-control">
+      </div>
+      <div class="col-sm-2 col-md-2 col-lg-2">
+        <label>Genre Album</label>
+        <input type="text" [(ngModel)]="currentAlbum.genre" name="genre" class="form-control">
+      </div>
+      <div class="col-sm-4 col-md-4 col-lg-4">
+          <label>Date Sortie</label>
+          <input type="date" [ngModel]="currentAlbum.date_sortie | date: 'yyyy-MM-dd'"
+          (ngModelChange)=" currentAlbum.date_sortie= $event" name="dateCreation"  class="form-control">
+      </div>
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label>nombre de tracks</label>
+        <input type="number" [(ngModel)]="currentAlbum.nb_tracks" name="nb_tracks" class="form-control">
+    </div>
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <select class="form-control form-control-lg" id="idArtist" name="idArtist" [(ngModel)]="updateIdArtist">
+        <option *ngFor="let artist of artists" [value]="artist.idArtist">
+          {{artist.name}}
+        </option>
+      </select>
+    </div>
+      <div class="mt-2">
+          <button type="submit" (click)="updateProduit()" class="btn btn-success">Modifer</button>
+      </div>
+  </form>
+</div>
