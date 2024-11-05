@@ -10,18 +10,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
   user = new User();
-  erreur = 0;
+  err : number = 0;
   constructor(private authService : AuthService,
               private router : Router) { }
   ngOnInit(): void {
   }
-  onLoggedin() {
-    let isValidUser: Boolean = this.authService.SignIn(this.user);
-    if (isValidUser)
+  onLoggedin()
+    {
+    this.authService.login(this.user).subscribe({
+    next: (data) => {
+      let jwToken = data.headers.get('Authorization')!;
+      this.authService.saveToken(jwToken);
       this.router.navigate(['/']);
-    else
-      // alert('Login ou mot de passe incorrecte!');
-      this.erreur = 1;
+      },
+    error: (err: any) => {
+      this.err = 1;
+    }
+  });
   }
 
 }

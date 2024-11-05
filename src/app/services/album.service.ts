@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { apiURL } from '../config';
 
 import { ArtistWrapped } from '../model/artistWrapped.model';
+import { AuthService } from './auth.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -19,28 +20,46 @@ export class AlbumService {
   album! : Album ;
   artistURL : string = 'http://localhost:1234/albums/art ';
   //artist! : Artist[] ;
-  constructor(private http : HttpClient) {
+  constructor(private http : HttpClient,
+              private authService : AuthService
+  ) {
   }
 
 
   listAlbums(): Observable<Album[]> {
-    return this.http.get<Album[]>(apiURL );
+    let jwt = this.authService.getToken();
+    jwt = "Bearer "+jwt;
+    let httpHeaders = new HttpHeaders({"Authorization":jwt})
+    return this.http.get<Album[]>(apiURL+"/all",{headers:httpHeaders});
   }
 
   ajouterAlbum(album: Album): Observable<Album> {
-    return this.http.post<Album>(apiURL, album, httpOptions);
+    let jwt = this.authService.getToken();
+    jwt = "Bearer "+jwt;
+    let httpHeaders = new HttpHeaders({"Authorization":jwt})
+    return this.http.post<Album>(apiURL+"/addalbum", album, {headers:httpHeaders});
   }
   supprimerAlbum(id : number){
-    const url = `${apiURL}/${id}`;
-    return this.http.delete(url, httpOptions);
+    const url = `${apiURL}/delalbum/${id}`;
+    let jwt = this.authService.getToken();
+    jwt = "Bearer "+jwt;
+    let httpHeaders = new HttpHeaders({"Authorization":jwt})
+    return this.http.delete(url, {headers:httpHeaders});
   }
 
   consulterAlbum(id: number): Observable<Album> {
-    const url = `${apiURL}/${id}`;
-    return this.http.get<Album>(url);
+    const url = `${apiURL}/getbyid/${id}`;
+    let jwt = this.authService.getToken();
+    jwt = "Bearer "+jwt;
+    let httpHeaders = new HttpHeaders({"Authorization":jwt})
+    return this.http.get<Album>(url,{headers:httpHeaders});
   }
   updateAlbum(album: Album): Observable<Album> {
-    return this.http.put<Album>(apiURL, album, httpOptions);
+    let jwt = this.authService.getToken();
+    jwt = "Bearer "+jwt;
+    let httpHeaders = new HttpHeaders({"Authorization":jwt})
+    return this.http.put<Album>(apiURL+"/updatealbum", album, {headers:httpHeaders});
+
   }
   trierAlbums() {
     this.albums = this.albums.sort((n1, n2) => {
@@ -54,20 +73,34 @@ export class AlbumService {
     });
   }
   listeArtist(): Observable<ArtistWrapped> {
-    return this.http.get<ArtistWrapped>(this.artistURL);
+    let jwt = this.authService.getToken();
+jwt = "Bearer "+jwt;
+let httpHeaders = new HttpHeaders({"Authorization":jwt})
+return this.http.get<ArtistWrapped>(this.artistURL,{headers:httpHeaders}
+);
+
   }
 
 
   rechercherParArtist(idArt: number): Observable<Album[]> {
-    const url = `${apiURL}/albumArtist/${idArt}`;
-    return this.http.get<Album[]>(url);
+    let jwt = this.authService.getToken();
+    jwt = "Bearer "+jwt;
+    let httpHeaders = new HttpHeaders({"Authorization":jwt})
+    return this.http.get<Album[]>(apiURL+"/albumArtist/"+idArt,{headers:httpHeaders});
+
   }
 
   rechercherParNom(nom: string): Observable<Album[]> {
+    let jwt = this.authService.getToken();
+    jwt = "Bearer "+jwt;
+    let httpHeaders = new HttpHeaders({"Authorization":jwt})
     const url = `${apiURL}/albumByName/${nom}`;
-    return this.http.get<Album[]>(url);
+    return this.http.get<Album[]>(url,{headers:httpHeaders});
   }
   ajouterArtist(artist: Artist): Observable<Artist> {
-    return this.http.post<Artist>(this.artistURL, artist, httpOptions);
+    let jwt = this.authService.getToken();
+    jwt = "Bearer "+jwt;
+    let httpHeaders = new HttpHeaders({"Authorization":jwt})
+    return this.http.post<Artist>(this.artistURL, artist, {headers:httpHeaders});
   }
 }

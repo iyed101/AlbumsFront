@@ -19,7 +19,6 @@ export class UpdateArtistComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.artist);
   }
   saveArtist() {
     this.artistUpdated.emit(this.artist);

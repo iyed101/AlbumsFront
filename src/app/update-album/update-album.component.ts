@@ -22,7 +22,6 @@ export class UpdateAlbumComponent implements OnInit {
   ngOnInit(): void {
     this.albumService.listeArtist().subscribe(artists => {
       this.artists = artists._embedded.artists;
-      console.log(artists);
     })
     this.albumService.consulterAlbum(this.activatedRoute.snapshot.params['id']).subscribe( album => {
       this.currentAlbum = album;

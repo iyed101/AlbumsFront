@@ -14,10 +14,9 @@ export class AlbumGuard implements CanActivate {
     state: RouterStateSnapshot
   ): boolean | UrlTree {
     if (this.authService.isAdmin()) {
-      return true; // L'utilisateur est un admin, autoriser l'accès
+      return true;
     } else {
-      // Rediriger vers une page d'interdiction d'accès si l'utilisateur n'est pas admin
-      return this.router.createUrlTree(['forbidden']); // Retourner le UrlTree ici
+      return this.router.createUrlTree(['forbidden']); 
     }
   }
 }

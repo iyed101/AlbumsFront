@@ -26,9 +26,6 @@ export class AlbumsComponent implements OnInit {
   }
   chargerAlbums(){
     this.albumService.listAlbums().subscribe( albums => {
-      for (let alb of albums){
-        console.log(alb.artist);
-      }
         this.albums = albums;
       })
   }
@@ -36,7 +33,6 @@ export class AlbumsComponent implements OnInit {
     let conf = confirm("Etes-vous sûr ?");
     if (conf){
       this.albumService.supprimerAlbum(album.idAlbum).subscribe(()=>{
-        console.log("Album supprimé");
         this.chargerAlbums();
       })
     }

@@ -21,15 +21,12 @@ export class AddAlbumComponent implements OnInit {
   }
   ngOnInit(): void {
     this.albumService.listeArtist().subscribe( artists => {
-
       this.artists = artists._embedded!.artists;
-
     })
   }
   addAlbum(){
     this.newAlbum.artist   = this.artists.find(a => a.idArtist == this.newIdArtist)!;
     this.albumService.ajouterAlbum(this.newAlbum).subscribe(album => {
-      console.log(album);
       this.router.navigate(['albums']);
     })
 
